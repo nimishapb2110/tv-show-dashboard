@@ -1,0 +1,32 @@
+:root {
+  --font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --line-height: 1.5;
+  --font-weight: 400;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+
+  --color-background: #242424;
+  --color-text-primary: rgba(255, 255, 255, 0.87);
+  --card-background: #18181b;
+
+  --dashboard-padding: 2.5rem 5rem;
+
+  --card-width: 15rem;
+  --card-height: 100%;
+
+  --shelf-item-padding: 1.5rem;
+}
+@media (max-width: 768px) {
+  :root {
+    --font-size-base: 0.75rem;
+
+    --dashboard-padding: 0.75rem;
+
+    --card-width: 10rem;
+    --card-height: 100%;
+
+    --shelf-item-padding: 0.5rem;
+  }
+}

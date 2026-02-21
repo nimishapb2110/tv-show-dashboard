@@ -1,5 +1,6 @@
 import { createApp } from "vue";
-import "./style.css";
+import "./assets/styles/variables.css";
+import "./assets/styles/main.css";
 import App from "./App.vue";
 import { PrimeVue } from "@primevue/core";
 import Aura from "@primevue/themes/aura";
@@ -15,6 +16,10 @@ app.use(PrimeVue, {
   ripple: true,
   theme: {
     preset: Aura,
+    options: {
+      darkModeSelector: ".p-dark",
+      cssLayer: false,
+    },
   },
 });
 
