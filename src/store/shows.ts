@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import type { Show } from "../types/show";
+import type { Show, ShowsByGenre } from "../types/show";
 import { fetchShows, getShowById, searchShows } from "../api/services";
 
 export const useShowsStore = defineStore("shows", {
@@ -12,8 +12,8 @@ export const useShowsStore = defineStore("shows", {
     searchResults: [] as Show[],
   }),
   getters: {
-    showsByGenre: (state): Record<string, Show[]> => {
-      const map: Record<string, Show[]> = {};
+    showsByGenre: (state): ShowsByGenre => {
+      const map: ShowsByGenre = {};
 
       for (const show of state.shows) {
         for (const genre of show.genres) {

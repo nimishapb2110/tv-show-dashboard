@@ -7,14 +7,17 @@
   --font-size-lg: 1.25rem;
   --font-size-xl: 1.5rem;
 
-  --color-background: #242424;
+  --color-primary: #34d399;
+  --color-on-primary: #0a2e1f;
   --color-text-primary: rgba(255, 255, 255, 0.87);
+  --color-background: #242424;
   --card-background: #18181b;
+  --color-rating: #f59e0b;
 
   --dashboard-padding: 2.5rem 5rem;
 
   --card-width: 15rem;
-  --card-height: 100%;
+  --card-height: 440px;
 
   --shelf-item-padding: 1.5rem;
 }
@@ -22,7 +25,7 @@
   :root {
     --font-size-base: 0.75rem;
 
-    --dashboard-padding: 0.75rem;
+    --dashboard-padding: 1rem;
 
     --card-width: 10rem;
     --card-height: 100%;

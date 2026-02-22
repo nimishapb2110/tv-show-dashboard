@@ -22,5 +22,5 @@ body {
 
 #app {
   margin: 0 auto;
-  width: calc(100% - var(--dashboard-padding) * 2);
+  width: 100%;
 }

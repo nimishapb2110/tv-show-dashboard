@@ -5,6 +5,7 @@ import Chip from "primevue/chip";
 import Tag from "primevue/tag";
 import { useShowsStore } from "../store/shows";
 import { computed, onMounted } from "vue";
+import RatingBadge from "../components/RatingBadge.vue";
 
 const router = useRouter();
 const currentRoute = useRoute();
@@ -32,7 +33,8 @@ const goBack = () => {
   <div class="show-detail">
     <Button icon="pi pi-arrow-left" label="Back" severity="secondary" @click="goBack"
       class="show-detail__back-button" />
-    <div class="show-detail__wrapper" v-if="show">
+    <div v-if="store.isLoading" class="loading-message">Loading...</div>
+    <div class="show-detail__wrapper" v-else-if="show">
       <div class="show-detail__image-wrapper">
         <img :src="show.image?.original" :alt="show.name" class="show-detail__image" />
       </div>
@@ -41,7 +43,7 @@ const goBack = () => {
         <div class="show-detail__meta">
           <span v-if="show.premiered" class="show-detail__meta-item">{{
             new Date(show.premiered).getFullYear()
-          }}</span>
+            }}</span>
           <span v-if="show.runtime" class="show-detail__meta-item">{{ show.runtime }} min</span>
           <span v-if="show.language" class="show-detail__meta-item">
             {{ show.language }}
@@ -55,11 +57,10 @@ const goBack = () => {
         </div>
 
         <p v-html="show.summary" />
-        <p>{{ show.rating.average }}</p>
+        <RatingBadge :rating="show.rating.average" />
       </div>
     </div>
-
-    <div v-else>Show not found.</div>
+    <div v-else class="loading-message">Show not found.</div>
   </div>
 </template>
 
@@ -72,6 +73,11 @@ const goBack = () => {
 
 .show-detail__back-button {
   margin-bottom: 1rem;
+}
+
+.loading-message {
+  text-align: center;
+  padding: 2rem;
 }
 
 .show-detail__wrapper {

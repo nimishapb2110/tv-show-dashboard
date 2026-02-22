@@ -2,6 +2,8 @@
 import type { Show } from "../types/show";
 import Card from "primevue/card";
 import { useRouter } from "vue-router";
+import RatingBadge from "./RatingBadge.vue";
+import Chip from "primevue/chip";
 
 const router = useRouter();
 
@@ -20,19 +22,38 @@ const handleCardClick = () => {
       <img v-if="props.show.image" alt="show header" :src="props.show.image.medium" />
     </template>
     <template #title>{{ props.show.name }}</template>
-    <template #subtitle>{{ props.show.genres.join(", ") }}</template>
-    <template #content>
-      <p class="m-0" v-html="props.show.language"></p>
+    <template #subtitle>
+      <RatingBadge :rating="props.show.rating.average" />
     </template>
   </Card>
 </template>
 
 <style scoped>
+.show-card__genres {
+  display: flex;
+  gap: 0.25rem;
+}
+
 :deep(.p-card-header) img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+:deep(.p-card-header) {
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+:deep(.p-card-title) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+:deep(.p-card-title:hover) {
+  white-space: normal;
 }
 
 @media (max-width: 768px) {

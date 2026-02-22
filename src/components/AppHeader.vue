@@ -3,10 +3,13 @@ import Toolbar from "primevue/toolbar";
 import SearchBar from "./SearchBar.vue";
 import { useShowsStore } from "../store/shows";
 import { useRouter, useRoute } from "vue-router";
+import { ref } from "vue";
 
 const store = useShowsStore();
 const router = useRouter();
 const route = useRoute();
+
+const searchBarRef = ref<InstanceType<typeof SearchBar> | null>(null)
 
 const onSearch = (query: string) => {
   store.searchShows(query);
@@ -15,12 +18,18 @@ const onSearch = (query: string) => {
     router.push({ name: 'dashboard' })
   }
 };
+
+const onLogoClick = () => {
+  store.clearSearch();
+  searchBarRef.value?.clearSearch();
+};
+
 </script>
 
 <template>
   <Toolbar class="app-header">
     <template #start>
-      <router-link :to="{ name: 'dashboard' }" class="app-header__logo">
+      <router-link :to="{ name: 'dashboard' }" class="app-header__logo" @click="onLogoClick">
         <div class="app-header__logo-icon">
           <i class="pi pi-video" />
         </div>
@@ -28,14 +37,13 @@ const onSearch = (query: string) => {
       </router-link>
     </template>
     <template #center>
-      <SearchBar @search="onSearch" />
+      <SearchBar ref="searchBarRef" @search="onSearch" />
     </template>
   </Toolbar>
 </template>
 
 <style scoped>
 .app-header {
-  background: #0f0f0f;
   border: none;
   padding: 0.75rem 1.5rem;
 }
@@ -53,14 +61,14 @@ const onSearch = (query: string) => {
   justify-content: center;
   width: 2rem;
   height: 2rem;
-  background: #019c44;
-  color: #ffffff;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
   font-size: 0.9rem;
 }
 
 .app-header__logo-text {
   font-size: 1.1rem;
-  color: #ffffff;
+  color: var(--color-text-primary);
   letter-spacing: 0.02em;
   font-weight: 300;
 }
@@ -70,7 +78,17 @@ const onSearch = (query: string) => {
 }
 
 .app-header__logo:hover .app-header__logo-icon {
-  background: #019c44cc;
-  transition: background 0.2s ease;
+  filter: brightness(1.2);
+  transition: filter 0.2s ease;
+}
+
+:deep(.p-toolbar-center) {
+  width: calc(100% - 500px);
+}
+
+@media screen and (max-width: 768px) {
+  :deep(.p-toolbar-center) {
+    width: calc(100% - 150px);
+  }
 }
 </style>
