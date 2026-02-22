@@ -36,7 +36,11 @@ const goBack = () => {
     <div v-if="store.isLoading" class="loading-message">Loading...</div>
     <div class="show-detail__wrapper" v-else-if="show">
       <div class="show-detail__image-wrapper">
-        <img :src="show.image?.original" :alt="show.name" class="show-detail__image" />
+        <img v-if="show.image?.original" :src="show.image?.original" :alt="show.name" class="show-detail__image" />
+        <div v-else class="show-detail__placeholder">
+          <i class="pi pi-video" />
+          <span>No Image</span>
+        </div>
       </div>
       <div class="show-detail__info">
         <h1>{{ show.name }}</h1>
@@ -98,6 +102,13 @@ const goBack = () => {
   width: 100%;
   height: auto;
   border-radius: 8px;
+}
+
+.show-detail__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .show-detail__meta {
