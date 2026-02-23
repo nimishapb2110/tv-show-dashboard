@@ -7,7 +7,7 @@ import { mockShow, mockShows } from "../__fixtures__/shows";
 vi.mock("../api/services", () => ({
   fetchShows: vi.fn(),
   searchShows: vi.fn(),
-  getShowById: vi.fn(),
+  getShowById: vi.fn()
 }));
 
 describe("useShowsStore", () => {
@@ -42,7 +42,7 @@ describe("useShowsStore", () => {
 
     it("sets error state if fetching shows fails", async () => {
       vi.mocked(apiServices.fetchShows).mockRejectedValue(
-        new Error("Network error"),
+        new Error("Network error")
       );
 
       await store.fetchShows();
@@ -72,8 +72,8 @@ describe("useShowsStore", () => {
       vi.mocked(apiServices.searchShows).mockResolvedValue([
         {
           score: 1,
-          show: mockShow(),
-        },
+          show: mockShow()
+        }
       ]);
 
       await store.searchShows("mock");
@@ -85,7 +85,7 @@ describe("useShowsStore", () => {
       const newSearchedShow = mockShow({ id: 123, name: "New Show" });
       vi.mocked(apiServices.fetchShows).mockResolvedValue([...mockShows()]);
       vi.mocked(apiServices.searchShows).mockResolvedValue([
-        { score: 0.9, show: newSearchedShow },
+        { score: 0.9, show: newSearchedShow }
       ]);
       await store.fetchShows();
 
@@ -102,7 +102,7 @@ describe("useShowsStore", () => {
       store.shows = [existingShow];
 
       vi.mocked(apiServices.searchShows).mockResolvedValue([
-        { score: 0.9, show: existingShow },
+        { score: 0.9, show: existingShow }
       ]);
 
       await store.searchShows("mock");
@@ -112,12 +112,12 @@ describe("useShowsStore", () => {
 
     it("sets error state if searching shows fails", async () => {
       vi.mocked(apiServices.searchShows).mockRejectedValue(
-        new Error("Network error"),
+        new Error("Network error")
       );
 
       await store.searchShows("mock");
 
-      expect(store.error).toBe("Failed to search shows");
+      expect(store.error).toBe("Failed to search shows!");
     });
   });
 
@@ -142,12 +142,12 @@ describe("useShowsStore", () => {
 
     it("sets error state if fetching show fails", async () => {
       vi.mocked(apiServices.getShowById).mockRejectedValue(
-        new Error("Network error"),
+        new Error("Network error")
       );
 
       await store.getShowById(123);
 
-      expect(store.error).toBe("Failed to fetch show");
+      expect(store.error).toBe("Failed to fetch show!");
     });
   });
 
@@ -206,6 +206,23 @@ describe("useShowsStore", () => {
       expect(dramaShows).toBeDefined();
       expect(dramaShows![0]?.rating.average).toBe(8.5);
       expect(dramaShows![1]?.rating.average).toBe(7.0);
+    });
+  });
+
+  describe("genres getter", () => {
+    it("returns unique sorted list of genres", async () => {
+      vi.mocked(apiServices.fetchShows).mockResolvedValue([...mockShows()]);
+
+      await store.fetchShows();
+
+      const genres = store.genres;
+
+      expect(genres).toEqual(["Comedy", "Drama", "Thriller"]);
+    });
+
+    it("returns empty array when there are no shows", () => {
+      const genres = store.genres;
+      expect(genres).toEqual([]);
     });
   });
 });

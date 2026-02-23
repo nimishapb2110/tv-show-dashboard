@@ -28,4 +28,11 @@ describe("SearchBar", () => {
     expect(wrapper.emitted("search")).toBeTruthy();
     expect(wrapper.emitted("search")![0]).toEqual(["test"]);
   });
+  it("clears input field and emits search event when clear button is clicked", async () => {
+    await wrapper.find("input").setValue("test");
+    await wrapper.find("button").trigger("click");
+
+    expect(wrapper.find("input").element.value).toBe("");
+    expect(wrapper.emitted("search")).toBeTruthy();
+  });
 });
