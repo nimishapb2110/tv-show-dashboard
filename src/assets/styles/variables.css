@@ -2,10 +2,7 @@
   --font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   --line-height: 1.5;
   --font-weight: 400;
-  --font-size-sm: 0.875rem;
   --font-size-base: 1rem;
-  --font-size-lg: 1.25rem;
-  --font-size-xl: 1.5rem;
 
   --color-primary: #34d399;
   --color-on-primary: #0a2e1f;
@@ -13,11 +10,17 @@
   --color-background: #242424;
   --card-background: #18181b;
   --color-rating: #f59e0b;
+  --color-error: #e50914;
 
   --dashboard-padding: 2.5rem 5rem;
 
+  --border-subtle: 0.05px solid rgba(255, 255, 255, 0.2);
+
   --card-width: 15rem;
   --card-height: 440px;
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
 
   --shelf-item-padding: 1.5rem;
 }
@@ -28,7 +31,7 @@
     --dashboard-padding: 1rem;
 
     --card-width: 10rem;
-    --card-height: 100%;
+    --card-height: 170px;
 
     --shelf-item-padding: 0.5rem;
   }

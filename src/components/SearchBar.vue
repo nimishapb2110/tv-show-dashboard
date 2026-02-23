@@ -6,8 +6,9 @@ import Button from "primevue/button";
 import { ref } from "vue";
 import useDebounce from "../composables/useDebounce";
 
-const searchQuery = ref("");
 const emit = defineEmits<{ search: [query: string] }>();
+
+const searchQuery = ref("");
 
 const debouncedSearch = useDebounce((query: string) => {
   emit("search", query);
@@ -23,18 +24,22 @@ const clearSearch = () => {
 };
 
 defineExpose({
-  clearSearch,
+  clearSearch
 });
-
 </script>
 
 <template>
   <div class="search-bar">
-    <IconField class="search-bar">
+    <IconField>
       <InputIcon>
         <i class="pi pi-search" />
       </InputIcon>
-      <InputText placeholder="Search" v-model="searchQuery" class="search-bar__input" @input="onInput" />
+      <InputText
+        v-model="searchQuery"
+        placeholder="Search"
+        class="search-bar__input"
+        @input="onInput"
+      />
     </IconField>
     <div v-if="searchQuery" class="search-bar__clear" @click="clearSearch">
       <Button icon="pi pi-times" rounded text severity="secondary" />
@@ -48,6 +53,10 @@ defineExpose({
   position: relative;
   display: flex;
   align-items: center;
+}
+
+:deep(.p-iconfield) {
+  width: 100%;
 }
 
 .search-bar__input {

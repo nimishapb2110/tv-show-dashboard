@@ -9,13 +9,13 @@ const store = useShowsStore();
 const router = useRouter();
 const route = useRoute();
 
-const searchBarRef = ref<InstanceType<typeof SearchBar> | null>(null)
+const searchBarRef = ref<InstanceType<typeof SearchBar> | null>(null);
 
 const onSearch = (query: string) => {
   store.searchShows(query);
 
-  if (route.name !== 'dashboard') {
-    router.push({ name: 'dashboard' })
+  if (route.name !== "dashboard") {
+    router.push({ name: "dashboard" });
   }
 };
 
@@ -23,13 +23,16 @@ const onLogoClick = () => {
   store.clearSearch();
   searchBarRef.value?.clearSearch();
 };
-
 </script>
 
 <template>
   <Toolbar class="app-header">
     <template #start>
-      <router-link :to="{ name: 'dashboard' }" class="app-header__logo" @click="onLogoClick">
+      <router-link
+        :to="{ name: 'dashboard' }"
+        class="app-header__logo"
+        @click="onLogoClick"
+      >
         <div class="app-header__logo-icon">
           <i class="pi pi-video" />
         </div>
@@ -46,6 +49,7 @@ const onLogoClick = () => {
 .app-header {
   border: none;
   padding: 0.75rem 1.5rem;
+  border-bottom: var(--border-subtle);
 }
 
 .app-header__logo {
@@ -64,6 +68,8 @@ const onLogoClick = () => {
   background: var(--color-primary);
   color: var(--color-on-primary);
   font-size: 0.9rem;
+  border-radius: var(--radius-sm);
+  transition: filter 0.2s ease;
 }
 
 .app-header__logo-text {
@@ -79,11 +85,12 @@ const onLogoClick = () => {
 
 .app-header__logo:hover .app-header__logo-icon {
   filter: brightness(1.2);
-  transition: filter 0.2s ease;
 }
 
 :deep(.p-toolbar-center) {
-  width: calc(100% - 500px);
+  width: calc(
+    100% - 500px
+  ); /* Adjust based on the approximate logo width + padding */
 }
 
 @media screen and (max-width: 768px) {

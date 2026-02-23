@@ -18,9 +18,9 @@ app.use(PrimeVue, {
     preset: Aura,
     options: {
       darkModeSelector: ".p-dark",
-      cssLayer: false,
-    },
-  },
+      cssLayer: false
+    }
+  }
 });
 
 router.isReady().then(() => {

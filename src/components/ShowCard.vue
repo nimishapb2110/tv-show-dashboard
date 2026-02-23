@@ -18,27 +18,25 @@ const handleCardClick = () => {
 <template>
   <Card @click="handleCardClick">
     <template #header>
-      <div class="show-card__poster">
-        <img v-if="props.show.image" alt="show header" :src="props.show.image.medium" />
-        <div v-else class="show-card__placeholder">
-          <i class="pi pi-video" />
-          <span>No Image</span>
-        </div>
+      <img
+        v-if="show.image"
+        alt="show header"
+        :src="show.image.medium"
+        loading="lazy"
+      />
+      <div v-else class="show-card__placeholder">
+        <i class="pi pi-video" />
+        <span>No Image</span>
       </div>
     </template>
-    <template #title>{{ props.show.name }}</template>
+    <template #title>{{ show.name }}</template>
     <template #subtitle>
-      <RatingBadge :rating="props.show.rating.average" />
+      <RatingBadge :rating="show.rating.average" />
     </template>
   </Card>
 </template>
 
 <style scoped>
-.show-card__genres {
-  display: flex;
-  gap: 0.25rem;
-}
-
 .show-card__placeholder {
   width: 100%;
   height: var(--card-height);
@@ -53,15 +51,20 @@ const handleCardClick = () => {
   font-size: 2rem;
 }
 
+:deep(.p-card:hover) {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
 :deep(.p-card-header) img {
   width: 100%;
-  height: 100%;
   object-fit: cover;
   display: block;
 }
 
 :deep(.p-card-header) {
-  border-radius: inherit;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
   overflow: hidden;
 }
 
@@ -76,6 +79,9 @@ const handleCardClick = () => {
 }
 
 @media (max-width: 768px) {
+  :deep(.p-card-header) {
+    border-radius: inherit;
+  }
 
   :deep(.p-card-title),
   :deep(.p-card-subtitle),

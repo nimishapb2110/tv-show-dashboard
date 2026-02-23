@@ -3,7 +3,7 @@ import { mount } from "@vue/test-utils";
 import SearchBar from "./SearchBar.vue";
 
 vi.mock("../composables/useDebounce", () => ({
-  default: (fn: Function) => fn,
+  default: (fn: Function) => fn
 }));
 
 describe("SearchBar", () => {

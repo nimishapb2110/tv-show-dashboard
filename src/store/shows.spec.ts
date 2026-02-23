@@ -47,7 +47,7 @@ describe("useShowsStore", () => {
 
       await store.fetchShows();
 
-      expect(store.error).toBe("Failed to fetch shows");
+      expect(store.error).toBe("Failed to fetch shows!");
     });
 
     it("does not fetch shows again if already loaded", async () => {

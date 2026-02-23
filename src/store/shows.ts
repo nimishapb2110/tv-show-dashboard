@@ -9,7 +9,7 @@ export const useShowsStore = defineStore("shows", {
     isLoading: false,
     error: null as string | null,
     searchQuery: "",
-    searchResults: [] as Show[],
+    searchResults: [] as Show[]
   }),
   getters: {
     showsByGenre: (state): ShowsByGenre => {
@@ -25,7 +25,7 @@ export const useShowsStore = defineStore("shows", {
       for (const genre in map) {
         if (map[genre]) {
           map[genre].sort(
-            (a, b) => (b.rating.average ?? 0) - (a.rating.average ?? 0),
+            (a, b) => (b.rating.average ?? 0) - (a.rating.average ?? 0)
           );
         }
       }
@@ -38,7 +38,7 @@ export const useShowsStore = defineStore("shows", {
       return [...new Set(all)].sort();
     },
 
-    isSearchMode: (state): boolean => state.searchQuery.trim().length > 0,
+    isSearchMode: (state): boolean => state.searchQuery.trim().length > 0
   },
   actions: {
     async fetchShows() {
@@ -50,7 +50,7 @@ export const useShowsStore = defineStore("shows", {
         this.shows = await fetchShows();
         this.showsLoaded = true;
       } catch (error) {
-        this.error = "Failed to fetch shows";
+        this.error = "Failed to fetch shows!";
       } finally {
         this.isLoading = false;
       }
@@ -78,7 +78,7 @@ export const useShowsStore = defineStore("shows", {
           }
         }
       } catch (error) {
-        this.error = "Failed to search shows";
+        this.error = "Failed to search shows!";
       } finally {
         this.isLoading = false;
       }
@@ -95,7 +95,7 @@ export const useShowsStore = defineStore("shows", {
         const show = await getShowById(id);
         this.shows.push(show);
       } catch (error) {
-        this.error = "Failed to fetch show";
+        this.error = "Failed to fetch show!";
       } finally {
         this.isLoading = false;
       }
@@ -103,6 +103,6 @@ export const useShowsStore = defineStore("shows", {
     clearSearch() {
       this.searchQuery = "";
       this.searchResults = [];
-    },
-  },
+    }
+  }
 });

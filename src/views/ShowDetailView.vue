@@ -6,22 +6,18 @@ import Tag from "primevue/tag";
 import { useShowsStore } from "../store/shows";
 import { computed, onMounted } from "vue";
 import RatingBadge from "../components/RatingBadge.vue";
+import ErrorMessage from "../components/ErrorMessage.vue";
 
 const router = useRouter();
 const currentRoute = useRoute();
 const store = useShowsStore();
 
 const show = computed(() =>
-  store.shows.find((s) => s.id === Number(currentRoute.params.id)),
+  store.shows.find((s) => s.id === Number(currentRoute.params.id))
 );
 
 onMounted(async () => {
-  if (!show.value) {
-
-    const id = Number(currentRoute.params.id);
-
-    await store.getShowById(id);
-  }
+  await store.getShowById(Number(currentRoute.params.id));
 });
 
 const goBack = () => {
@@ -31,12 +27,27 @@ const goBack = () => {
 
 <template>
   <div class="show-detail">
-    <Button icon="pi pi-arrow-left" label="Back" severity="secondary" @click="goBack"
-      class="show-detail__back-button" />
-    <div v-if="store.isLoading" class="loading-message">Loading...</div>
+    <Button
+      icon="pi pi-arrow-left"
+      label="Back"
+      severity="secondary"
+      @click="goBack"
+      class="show-detail__back-button"
+    />
+    <div v-if="store.isLoading" class="show-detail__message">Loading...</div>
+    <ErrorMessage
+      v-else-if="store.error"
+      :message="store.error"
+      @retry="store.getShowById(Number(currentRoute.params.id))"
+    />
     <div class="show-detail__wrapper" v-else-if="show">
       <div class="show-detail__image-wrapper">
-        <img v-if="show.image?.original" :src="show.image?.original" :alt="show.name" class="show-detail__image" />
+        <img
+          v-if="show.image?.original"
+          :src="show.image?.original"
+          :alt="show.name"
+          class="show-detail__image"
+        />
         <div v-else class="show-detail__placeholder">
           <i class="pi pi-video" />
           <span>No Image</span>
@@ -47,31 +58,44 @@ const goBack = () => {
         <div class="show-detail__meta">
           <span v-if="show.premiered" class="show-detail__meta-item">{{
             new Date(show.premiered).getFullYear()
-            }}</span>
-          <span v-if="show.runtime" class="show-detail__meta-item">{{ show.runtime }} min</span>
+          }}</span>
+          <span v-if="show.runtime" class="show-detail__meta-item"
+            >{{ show.runtime }} min</span
+          >
           <span v-if="show.language" class="show-detail__meta-item">
             {{ show.language }}
           </span>
-          <Tag v-if="show.status" :value="show.status" :severity="show.status === 'Running' ? 'success' : 'info'" />
-          <Button v-if="show.officialSite" label="Official Site" icon="pi pi-external-link" as="a"
-            :href="show.officialSite" target="_blank" rel="noopener noreferrer" size="small" text />
+          <Tag
+            v-if="show.status"
+            :value="show.status"
+            :severity="show.status === 'Running' ? 'success' : 'info'"
+          />
+          <Button
+            v-if="show.officialSite"
+            label="Official Site"
+            icon="pi pi-external-link"
+            as="a"
+            :href="show.officialSite"
+            target="_blank"
+            rel="noopener noreferrer"
+            size="small"
+            text
+          />
         </div>
         <div class="show-detail__genres">
           <Chip v-for="genre in show.genres" :key="genre" :label="genre" />
         </div>
-
         <p v-html="show.summary" />
         <RatingBadge :rating="show.rating.average" />
       </div>
     </div>
-    <div v-else class="loading-message">Show not found.</div>
+    <div v-else class="show-detail__message">Show not found.</div>
   </div>
 </template>
 
 <style scoped>
 .show-detail {
   padding: var(--dashboard-padding);
-  width: calc(100% - var(--dashboard-padding) * 2);
   margin: 0 auto;
 }
 
@@ -79,7 +103,7 @@ const goBack = () => {
   margin-bottom: 1rem;
 }
 
-.loading-message {
+.show-detail__message {
   text-align: center;
   padding: 2rem;
 }
@@ -101,7 +125,7 @@ const goBack = () => {
 .show-detail__image {
   width: 100%;
   height: auto;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
 }
 
 .show-detail__placeholder {
@@ -109,6 +133,9 @@ const goBack = () => {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  width: 100%;
+  height: var(--card-height);
+  border: var(--border-subtle);
 }
 
 .show-detail__meta {
@@ -132,11 +159,6 @@ const goBack = () => {
 @media (max-width: 768px) {
   .show-detail__wrapper {
     grid-template-columns: 1fr;
-  }
-
-  .show-detail__wrapper>div:first-child {
-    display: flex;
-    justify-content: center;
   }
 
   .show-detail__image {

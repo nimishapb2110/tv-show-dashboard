@@ -49,14 +49,30 @@ onUnmounted(() => {
         <p class="show-shelf__empty-message">No shows available!</p>
       </template>
       <template v-else>
-        <div class="show-shelf__nav show-shelf__nav--left" v-show="canScrollLeft">
-          <Button icon="pi pi-chevron-left" text @click="scrollLeft" />
+        <div
+          class="show-shelf__nav show-shelf__nav--left"
+          v-show="canScrollLeft"
+        >
+          <Button
+            icon="pi pi-chevron-left"
+            text
+            @click="scrollLeft"
+            aria-label="Scroll left"
+          />
         </div>
         <div class="show-shelf__list" ref="rowRef">
           <ShowCard v-for="show in groupedShows" :key="show.id" :show="show" />
         </div>
-        <div class="show-shelf__nav show-shelf__nav--right" v-show="canScrollRight">
-          <Button icon="pi pi-chevron-right" text @click="scrollRight" />
+        <div
+          class="show-shelf__nav show-shelf__nav--right"
+          v-show="canScrollRight"
+        >
+          <Button
+            icon="pi pi-chevron-right"
+            text
+            @click="scrollRight"
+            aria-label="Scroll right"
+          />
         </div>
       </template>
     </div>
@@ -83,7 +99,7 @@ onUnmounted(() => {
   background-color: var(--color-primary);
   margin-right: 0.5rem;
   vertical-align: middle;
-  border-radius: 0.5rem;
+  border-radius: var(--radius-md);
 }
 
 .show-shelf__wrapper {
@@ -114,8 +130,8 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 0.05px solid rgba(255, 255, 255, 0.2);
-  border-radius: 0.25rem;
+  border: var(--border-subtle);
+  border-radius: var(--radius-sm);
 }
 
 .show-shelf__nav--left {
@@ -129,11 +145,11 @@ onUnmounted(() => {
 :deep(.p-card) {
   flex-shrink: 0;
   width: var(--card-width);
+  height: var(--card-height);
   cursor: pointer;
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
-  height: var(--card-height);
 }
 
 :deep(.p-card:hover) {

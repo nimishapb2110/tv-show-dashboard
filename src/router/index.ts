@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 import DashboardView from "../views/DashboardView.vue";
-import ShowDetailView from "../views/ShowDetailView.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -8,18 +7,18 @@ const router = createRouter({
     {
       path: "/",
       name: "dashboard",
-      component: DashboardView,
+      component: DashboardView
     },
     {
       path: "/details/:id",
       name: "showDetails",
-      component: ShowDetailView,
+      component: () => import("../views/ShowDetailView.vue")
     },
     {
       path: "/:pathMatch(.*)*",
       name: "notFound",
-      component: () => import("../views/NotFoundView.vue"),
-    },
-  ],
+      component: () => import("../views/NotFoundView.vue")
+    }
+  ]
 });
 export default router;
