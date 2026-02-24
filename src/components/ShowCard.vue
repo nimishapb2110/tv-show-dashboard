@@ -3,6 +3,7 @@ import type { Show } from "../types/show";
 import Card from "primevue/card";
 import { useRouter } from "vue-router";
 import RatingBadge from "./RatingBadge.vue";
+import ShowPoster from "./ShowPoster.vue";
 
 const router = useRouter();
 
@@ -16,18 +17,12 @@ const handleCardClick = () => {
 </script>
 
 <template>
-  <Card @click="handleCardClick">
+  <Card
+    @click="handleCardClick"
+    :class="{ 'show-card--no-image': !show.image }"
+  >
     <template #header>
-      <img
-        v-if="show.image"
-        alt="show header"
-        :src="show.image.medium"
-        loading="lazy"
-      />
-      <div v-else class="show-card__placeholder">
-        <i class="pi pi-video" />
-        <span>No Image</span>
-      </div>
+      <ShowPoster :image="show.image?.original" :name="show.name"></ShowPoster>
     </template>
     <template #title>{{ show.name }}</template>
     <template #subtitle>
@@ -37,35 +32,13 @@ const handleCardClick = () => {
 </template>
 
 <style scoped>
-.show-card__placeholder {
-  width: 100%;
-  height: var(--card-height);
+:deep(.p-card-header) {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-}
-
-.show-card__placeholder .pi {
-  font-size: 2rem;
-}
-
-:deep(.p-card:hover) {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
-}
-
-:deep(.p-card-header) img {
-  width: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-:deep(.p-card-header) {
   border-top-left-radius: inherit;
   border-top-right-radius: inherit;
   overflow: hidden;
+  height: 100%;
 }
 
 :deep(.p-card-title) {
@@ -79,14 +52,13 @@ const handleCardClick = () => {
 }
 
 @media (max-width: 768px) {
-  :deep(.p-card-header) {
+  :not(.show-card--no-image) :deep(.p-card-header) {
     border-radius: inherit;
   }
 
-  :deep(.p-card-title),
-  :deep(.p-card-subtitle),
-  :deep(.p-card-content),
-  :deep(.p-card-body) {
+  :not(.show-card--no-image) :deep(.p-card-title),
+  :not(.show-card--no-image) :deep(.p-card-body),
+  :deep(.p-card-subtitle) {
     display: none;
   }
 }

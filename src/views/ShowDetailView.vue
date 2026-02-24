@@ -7,6 +7,8 @@ import { useShowsStore } from "../store/shows";
 import { computed, onMounted } from "vue";
 import RatingBadge from "../components/RatingBadge.vue";
 import ErrorMessage from "../components/ErrorMessage.vue";
+import ShowMeta from "../components/ShowMeta.vue";
+import ShowPoster from "../components/ShowPoster.vue";
 
 const router = useRouter();
 const currentRoute = useRoute();
@@ -41,47 +43,26 @@ const goBack = () => {
       @retry="store.getShowById(Number(currentRoute.params.id))"
     />
     <div class="show-detail__wrapper" v-else-if="show">
-      <div class="show-detail__image-wrapper">
-        <img
-          v-if="show.image?.original"
-          :src="show.image?.original"
-          :alt="show.name"
-          class="show-detail__image"
-        />
-        <div v-else class="show-detail__placeholder">
-          <i class="pi pi-video" />
-          <span>No Image</span>
-        </div>
-      </div>
+      <ShowPoster :image="show.image?.original" :name="show.name" />
       <div class="show-detail__info">
         <h1>{{ show.name }}</h1>
-        <div class="show-detail__meta">
-          <span v-if="show.premiered" class="show-detail__meta-item">{{
-            new Date(show.premiered).getFullYear()
-          }}</span>
-          <span v-if="show.runtime" class="show-detail__meta-item"
-            >{{ show.runtime }} min</span
-          >
-          <span v-if="show.language" class="show-detail__meta-item">
-            {{ show.language }}
-          </span>
-          <Tag
-            v-if="show.status"
-            :value="show.status"
-            :severity="show.status === 'Running' ? 'success' : 'info'"
-          />
-          <Button
-            v-if="show.officialSite"
-            label="Official Site"
-            icon="pi pi-external-link"
-            as="a"
-            :href="show.officialSite"
-            target="_blank"
-            rel="noopener noreferrer"
-            size="small"
-            text
-          />
-        </div>
+        <ShowMeta :show="show" />
+        <Tag
+          v-if="show.status"
+          :value="show.status"
+          :severity="show.status === 'Running' ? 'success' : 'info'"
+        />
+        <Button
+          v-if="show.officialSite"
+          label="Official Site"
+          icon="pi pi-external-link"
+          as="a"
+          :href="show.officialSite"
+          target="_blank"
+          rel="noopener noreferrer"
+          size="small"
+          text
+        />
         <div class="show-detail__genres">
           <Chip v-for="genre in show.genres" :key="genre" :label="genre" />
         </div>
@@ -136,19 +117,6 @@ const goBack = () => {
   width: 100%;
   height: var(--card-height);
   border: var(--border-subtle);
-}
-
-.show-detail__meta {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-  margin-bottom: 1rem;
-}
-
-.show-detail__meta-item:not(:last-child)::after {
-  content: "•";
-  margin-left: 0.75rem;
 }
 
 .show-detail__genres {

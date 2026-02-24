@@ -12,27 +12,14 @@ describe("api services", () => {
     vi.clearAllMocks();
   });
 
-  it("should have fetchShows function", async () => {
-    const { fetchShows } = await import("./services");
-    expect(fetchShows).toBeDefined();
-  });
-
-  it("should have searchShows function", async () => {
-    const { searchShows } = await import("./services");
-    expect(searchShows).toBeDefined();
-  });
-
-  it("should have getShowById function", async () => {
-    const { getShowById } = await import("./services");
-    expect(getShowById).toBeDefined();
-  });
-
   describe("fetchShows", () => {
     it("should fetch shows successfully", async () => {
-      vi.mocked(apiClient).mockResolvedValueOnce(mockShows());
+      const mockData = mockShows();
+      vi.mocked(apiClient).mockResolvedValueOnce(mockData);
       const shows = await fetchShows();
-      expect(shows).toEqual(mockShows());
+      expect(shows).toEqual(mockData);
       expect(apiClient).toHaveBeenCalledWith("/shows");
+      expect(apiClient).toHaveBeenCalledTimes(1);
     });
 
     it("should handle fetch shows error", async () => {
@@ -44,10 +31,12 @@ describe("api services", () => {
   describe("searchShows", () => {
     it("should search shows successfully", async () => {
       const query = "mock";
-      vi.mocked(apiClient).mockResolvedValueOnce(mockShows());
+      const mockData = mockShows().map((show) => ({ show }));
+      vi.mocked(apiClient).mockResolvedValueOnce(mockData);
       const shows = await searchShows(query);
-      expect(shows).toEqual(mockShows());
+      expect(shows).toEqual(mockData);
       expect(apiClient).toHaveBeenCalledWith(`/search/shows?q=${query}`);
+      expect(apiClient).toHaveBeenCalledTimes(1);
     });
 
     it("should handle search shows error", async () => {
@@ -60,10 +49,12 @@ describe("api services", () => {
   describe("getShowById", () => {
     it("should get show by id successfully", async () => {
       const id = 1;
-      vi.mocked(apiClient).mockResolvedValueOnce(mockShows()[0]);
+      const mockData = mockShows()[0];
+      vi.mocked(apiClient).mockResolvedValueOnce(mockData);
       const show = await getShowById(id);
-      expect(show).toEqual(mockShows()[0]);
+      expect(show).toEqual(mockData);
       expect(apiClient).toHaveBeenCalledWith(`/shows/${id}`);
+      expect(apiClient).toHaveBeenCalledTimes(1);
     });
 
     it("should handle get show by id error", async () => {

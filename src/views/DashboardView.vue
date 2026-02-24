@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
+import ErrorMessage from "../components/ErrorMessage.vue";
 import ShowShelf from "../components/ShowShelf.vue";
 import { useShowsStore } from "../store/shows";
-import ErrorMessage from "../components/ErrorMessage.vue";
 
 const store = useShowsStore();
 
