@@ -1,37 +1,43 @@
 <script setup lang="ts">
 import type { Show } from "../types/show";
 import Card from "primevue/card";
-import { useRouter } from "vue-router";
 import RatingBadge from "./RatingBadge.vue";
 import ShowPoster from "./ShowPoster.vue";
 
-const router = useRouter();
-
 const props = defineProps<{
   show: Show;
+  index: number;
 }>();
-
-const handleCardClick = () => {
-  router.push({ name: "showDetails", params: { id: props.show.id } });
-};
 </script>
 
 <template>
-  <Card
-    @click="handleCardClick"
+  <router-link
+    :to="{ name: 'showDetails', params: { id: show.id } }"
+    class="show-card__link"
     :class="{ 'show-card--no-image': !show.image }"
   >
-    <template #header>
-      <ShowPoster :image="show.image?.original" :name="show.name"></ShowPoster>
-    </template>
-    <template #title>{{ show.name }}</template>
-    <template #subtitle>
-      <RatingBadge :rating="show.rating.average" />
-    </template>
-  </Card>
+    <Card>
+      <template #header>
+        <ShowPoster
+          :image="show.image?.medium"
+          :name="show.name"
+          :is-lcp="index === 0"
+        ></ShowPoster>
+      </template>
+      <template #title>{{ show.name }}</template>
+      <template #subtitle>
+        <RatingBadge :rating="show.rating.average" />
+      </template>
+    </Card>
+  </router-link>
 </template>
 
 <style scoped>
+.show-card__link {
+  text-decoration: none;
+  color: inherit;
+}
+
 :deep(.p-card-header) {
   display: flex;
   flex-direction: column;
@@ -52,12 +58,12 @@ const handleCardClick = () => {
 }
 
 @media (max-width: 768px) {
-  :not(.show-card--no-image) :deep(.p-card-header) {
+  .show-card__link:not(.show-card--no-image) :deep(.p-card-header) {
     border-radius: inherit;
   }
 
-  :not(.show-card--no-image) :deep(.p-card-title),
-  :not(.show-card--no-image) :deep(.p-card-body),
+  .show-card__link:not(.show-card--no-image) :deep(.p-card-title),
+  .show-card__link:not(.show-card--no-image) :deep(.p-card-body),
   :deep(.p-card-subtitle) {
     display: none;
   }

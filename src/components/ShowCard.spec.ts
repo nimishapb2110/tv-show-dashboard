@@ -27,7 +27,8 @@ describe("ShowCard", () => {
   it("renders show title and rating", () => {
     const wrapper = mount(ShowCard, {
       props: {
-        show: mockShow({ name: "Mock Show", rating: { average: 7 } })
+        show: mockShow({ name: "Mock Show", rating: { average: 7 } }),
+        index: 0
       },
       global: {
         plugins: [router]
@@ -40,7 +41,8 @@ describe("ShowCard", () => {
   it("renders 'N/A' when no rating is available", () => {
     const wrapper = mount(ShowCard, {
       props: {
-        show: mockShow({ name: "No Rating Show", rating: { average: null } })
+        show: mockShow({ name: "No Rating Show", rating: { average: null } }),
+        index: 0
       },
       global: {
         plugins: [router]
@@ -56,10 +58,11 @@ describe("ShowCard", () => {
         show: mockShow({
           name: "Image Show",
           image: {
-            original: "http://example.com/image-200x300.jpg",
-            medium: "http://example.com/image-400x600.jpg"
+            original: "http://example.com/image-400X1200.jpg",
+            medium: "http://example.com/image-200x300.jpg"
           }
-        })
+        }),
+        index: 0
       },
       global: {
         plugins: [router]
@@ -73,7 +76,8 @@ describe("ShowCard", () => {
   it("navigates to show details page on click", async () => {
     const wrapper = mount(ShowCard, {
       props: {
-        show: mockShow({ id: 123, name: "Clickable Show" })
+        show: mockShow({ id: 123, name: "Clickable Show" }),
+        index: 0
       },
       global: {
         plugins: [router]

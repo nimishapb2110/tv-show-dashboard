@@ -1,43 +1,19 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from "vue";
 import type { Show } from "../types/show";
 import ShowCard from "./ShowCard.vue";
 import Button from "primevue/button";
+import useHorizontalScroll from "../composables/useHorizontalScroll";
+import { useTemplateRef } from "vue";
 
 defineProps<{
   title: string;
   groupedShows: Show[];
 }>();
 
-const rowRef = ref<HTMLElement | null>(null);
-const canScrollLeft = ref(false);
-const canScrollRight = ref(true);
+const rowRef = useTemplateRef<HTMLElement>("rowRef");
 
-const updateScrollState = () => {
-  if (!rowRef.value) return;
-
-  const { scrollLeft, scrollWidth, clientWidth } = rowRef.value;
-
-  canScrollLeft.value = scrollLeft > 0;
-  canScrollRight.value = scrollLeft + clientWidth < scrollWidth;
-};
-
-const scrollLeft = () => {
-  rowRef.value?.scrollBy({ left: -400, behavior: "smooth" });
-};
-
-const scrollRight = () => {
-  rowRef.value?.scrollBy({ left: 400, behavior: "smooth" });
-};
-
-onMounted(() => {
-  rowRef.value?.addEventListener("scroll", updateScrollState);
-  updateScrollState();
-});
-
-onUnmounted(() => {
-  rowRef.value?.removeEventListener("scroll", updateScrollState);
-});
+const { canScrollLeft, canScrollRight, scrollLeft, scrollRight } =
+  useHorizontalScroll(rowRef);
 </script>
 
 <template>
@@ -61,7 +37,12 @@ onUnmounted(() => {
           />
         </div>
         <div class="show-shelf__list" ref="rowRef">
-          <ShowCard v-for="show in groupedShows" :key="show.id" :show="show" />
+          <ShowCard
+            v-for="(show, index) in groupedShows"
+            :key="show.id"
+            :show="show"
+            :index="index"
+          />
         </div>
         <div
           class="show-shelf__nav show-shelf__nav--right"

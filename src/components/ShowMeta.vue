@@ -29,7 +29,7 @@ defineProps<{
   flex-wrap: wrap;
   margin-bottom: 1rem;
 }
-.show-meta__item::after {
+.show-meta__item:not(:last-child)::after {
   content: "•";
   margin-left: 0.5rem;
 }

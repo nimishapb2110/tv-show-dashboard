@@ -2,6 +2,7 @@
 defineProps<{
   name: string;
   image?: string | null;
+  isLcp: boolean;
 }>();
 </script>
 
@@ -12,7 +13,8 @@ defineProps<{
       :src="image"
       :alt="`Poster for ${name}`"
       class="show-poster__image"
-      loading="lazy"
+      :loading="isLcp ? 'eager' : 'lazy'"
+      :fetchpriority="isLcp ? 'high' : undefined"
     />
     <div v-else class="show-poster__placeholder">
       <i class="pi pi-video" />

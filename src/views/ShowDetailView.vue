@@ -23,7 +23,11 @@ onMounted(async () => {
 });
 
 const goBack = () => {
-  router.back();
+  if (window.history.length > 1) {
+    router.back();
+  } else {
+    router.push({ name: "dashboard" });
+  }
 };
 </script>
 
@@ -43,16 +47,18 @@ const goBack = () => {
       @retry="store.getShowById(Number(currentRoute.params.id))"
     />
     <div class="show-detail__wrapper" v-else-if="show">
-      <ShowPoster :image="show.image?.original" :name="show.name" />
+      <ShowPoster :image="show.image?.original" :name="show.name" is-lcp />
       <div class="show-detail__info">
         <h1>{{ show.name }}</h1>
         <ShowMeta :show="show" />
         <Tag
+          class="show-detail__status"
           v-if="show.status"
           :value="show.status"
           :severity="show.status === 'Running' ? 'success' : 'info'"
         />
         <Button
+          class="show-detail__official-site-button"
           v-if="show.officialSite"
           label="Official Site"
           icon="pi pi-external-link"
@@ -78,6 +84,11 @@ const goBack = () => {
 .show-detail {
   padding: var(--dashboard-padding);
   margin: 0 auto;
+}
+
+.show-detail__status,
+.show-detail__official-site-button {
+  margin-bottom: 1rem;
 }
 
 .show-detail__back-button {
